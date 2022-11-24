@@ -143,13 +143,13 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.IMAGE_SYSTEM, {
   pause: function (keepVideo = false) {
     if (!keepVideo && this.video) this.video.pause();
 
-    this.controller.stopProcessVideo();
+    this.controller && this.controller.stopProcessVideo();
   },
 
   unpause: function () {
     if (!this.video) return;
     this.video.play();
-    this.controller.processVideo(this.video);
+    this.controller && this.controller.processVideo(this.video);
   },
 
   _startVideo: async function () {
