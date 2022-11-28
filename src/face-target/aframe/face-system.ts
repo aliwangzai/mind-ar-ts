@@ -10,6 +10,7 @@ import {
   IFaceSetupParams,
   IFaceTarget,
 } from '../../../types/face-target/aframe';
+import { getUserMedia, hasMediaDevices } from '../../utils/getUserMedia';
 
 const { Controller: ControllerClass, UI: UIClass } = window.MINDAR.FACE;
 
@@ -125,7 +126,7 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.FACE_SYSTEM, {
 
     this.container.appendChild(this.video);
 
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!hasMediaDevices()) {
       // TODO: show unsupported error
       this.el.emit(AR_STATE.AR_ERROR, { error: 'VIDEO_FAIL' });
       this.ui.showCompatibility();
@@ -137,11 +138,15 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.FACE_SYSTEM, {
       const DEVICES = await navigator.mediaDevices.enumerateDevices();
       const devices = DEVICES.filter((device) => device.kind === 'videoinput');
 
-      let facingMode: VideoFacingModeEnum = 'environment';
+      let facingMode: VideoFacingModeEnum = 'user';
+
+      console.log('devices.length:', devices.length);
 
       if (devices.length > 1) facingMode = this.shouldFaceUser ? 'user' : 'environment';
 
-      const stream = await navigator.mediaDevices.getUserMedia({
+      console.log('facingMode:', facingMode, this.shouldFaceUser);
+
+      const stream = await getUserMedia({
         audio: false,
         video: {
           facingMode,

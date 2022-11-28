@@ -15,6 +15,7 @@ import {
 } from '../../utils/constant';
 import screenResizer from '../../utils/screen-resizer';
 import { IImageSetupParams, IImageTarget } from '../../../types/image-target/aframe';
+import { getUserMedia, hasMediaDevices } from '../../utils/getUserMedia';
 
 const { Controller: ControllerClass, UI: UIClass } = window.MINDAR.IMAGE;
 
@@ -167,7 +168,7 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.IMAGE_SYSTEM, {
 
     this.container.appendChild(this.video);
 
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!hasMediaDevices()) {
       // TODO: show unsupported error
       this.el.emit(AR_STATE.AR_ERROR, { error: 'VIDEO_FAIL' });
       this.ui.showCompatibility();
@@ -183,7 +184,7 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.IMAGE_SYSTEM, {
 
       if (devices.length > 1) facingMode = this.shouldFaceUser ? 'user' : 'environment';
 
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const stream = await getUserMedia({
         audio: false,
         video: {
           facingMode,
