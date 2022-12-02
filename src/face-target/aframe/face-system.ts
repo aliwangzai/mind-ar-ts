@@ -144,7 +144,21 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.FACE_SYSTEM, {
 
       if (devices.length > 1) facingMode = this.shouldFaceUser ? 'user' : 'environment';
 
-      console.log('facingMode:', facingMode, this.shouldFaceUser);
+      /**
+       * 
+        video {
+          -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+        }
+       */
+      const flipX = facingMode == 'user' ? -1 : 1;
+      const scaleStyle = `scaleX(${flipX})`;
+      this.video.style.webkitTransform = scaleStyle;
+      this.video.style.transform = scaleStyle;
+      const canvas = this.container.getElementsByClassName('a-canvas')[0] as HTMLCanvasElement;
+      canvas.style.transform = scaleStyle;
+      canvas.style.webkitTransform = scaleStyle;
+      console.log('facingMode:', facingMode, flipX);
 
       const stream = await getUserMedia({
         audio: false,

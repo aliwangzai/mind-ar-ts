@@ -28,7 +28,6 @@ class FaceMeshHelper {
   public async detect(input: HTMLVideoElement) {
     const results = await new Promise<Results>((resolve) => {
       this.detectResolve = resolve;
-
       this.faceMesh.send({ image: input });
     });
 
