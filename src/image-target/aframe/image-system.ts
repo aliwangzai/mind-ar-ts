@@ -96,7 +96,7 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.IMAGE_SYSTEM, {
     this.anchorEntities.push({ el, targetIndex });
   },
 
-  start: function () {
+  start: function (showLoading = true) {
     if (!this.el.sceneEl || !this.el.sceneEl.parentNode) return;
 
     this.container = this.el.sceneEl.parentNode as HTMLDivElement;
@@ -107,8 +107,9 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.IMAGE_SYSTEM, {
       this.mainStats.domElement.style.cssText = STATS_STYLE;
       this.container.appendChild(this.mainStats.domElement);
     }
-
-    this.ui.showLoading();
+    if (showLoading) {
+      this.ui.showLoading();
+    }
     this._startVideo();
   },
 
@@ -118,7 +119,10 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.IMAGE_SYSTEM, {
 
   stop: function () {
     this.pause();
-
+    for (const anchorEntity of this.anchorEntities) {
+      // if (anchorEntity.targetIndex === targetIndex)
+      anchorEntity.el.updateWorldMatrix(null);
+    }
     if (!this.video) return;
 
     const { srcObject } = this.video;
