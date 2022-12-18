@@ -21,7 +21,7 @@ class MindARThree {
     ReturnType<Controller['createThreeFaceGeometry']>,
     THREE.MeshStandardMaterial
   >[];
-
+  private faceMeshPath: string;
   constructor({
     container,
     uiLoading = 'yes',
@@ -30,10 +30,11 @@ class MindARThree {
     filterMinCF = null,
     filterBeta = null,
     shouldFaceUser = true,
+    faceMeshPath = 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4/',
   }: ThreeConstructor) {
     this.container = container;
     this.ui = new UI({ uiLoading, uiScanning, uiError });
-
+    this.faceMeshPath = faceMeshPath;
     this.controller = new Controller({
       filterMinCF: filterMinCF,
       filterBeta: filterBeta,
@@ -258,7 +259,7 @@ class MindARThree {
       this.controller.onUpdate = this._onARUpdate;
 
       this._resize();
-      await this.controller.setup(video);
+      await this.controller.setup(video, this.faceMeshPath);
 
       this._setCameraParams();
 

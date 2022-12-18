@@ -28,6 +28,7 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.FACE_SYSTEM, {
 
   shouldFaceUser: true,
   lastHasFace: false,
+  faceMeshPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4/',
 
   _positionSettings: 'absolute',
   _positionZIndex: -2,
@@ -46,12 +47,14 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.FACE_SYSTEM, {
     shouldFaceUser,
     _positionSettings,
     _positionZIndex,
+    faceMeshPath,
   }: IFaceSetupParams) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.ui = new UIClass({ uiLoading, uiScanning, uiError }) as any;
     this.filterMinCF = filterMinCF;
     this.filterBeta = filterBeta;
     this.shouldFaceUser = shouldFaceUser;
+    this.faceMeshPath = faceMeshPath;
 
     if (!Helper.isNil(_positionSettings)) this._positionSettings = _positionSettings;
     if (!Helper.isNil(_positionZIndex)) this._positionZIndex = _positionZIndex;
@@ -234,7 +237,7 @@ AFRAME.registerSystem(AR_COMPONENT_NAME.FACE_SYSTEM, {
 
     this._resize();
 
-    await this.controller.setup(this.video);
+    await this.controller.setup(this.video, this.faceMeshPath);
     await this.controller.dummyRun(this.video);
 
     const { fov, aspect, near, far } = this.controller.getCameraParams();

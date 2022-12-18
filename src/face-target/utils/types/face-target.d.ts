@@ -15,6 +15,7 @@ export interface ThreeConstructor {
   filterMinCF?: number | null;
   filterBeta?: number | null;
   shouldFaceUser?: boolean;
+  faceMeshPath?: string;
 }
 
 export interface IAnchor {

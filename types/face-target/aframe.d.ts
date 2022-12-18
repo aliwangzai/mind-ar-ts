@@ -9,6 +9,7 @@ export interface IFaceSetupParams {
   shouldFaceUser: boolean;
   _positionSettings?: string;
   _positionZIndex?: number;
+  faceMeshPath: string;
 }
 
 export interface IFaceTarget {

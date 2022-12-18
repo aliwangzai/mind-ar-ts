@@ -20,6 +20,10 @@ AFRAME.registerComponent(AR_COMPONENT_NAME.FACE, {
     shouldFaceUser: { type: 'boolean', default: true },
     _positionSettings: { type: 'string', default: 'absolute' },
     _positionZIndex: { type: 'int', default: -2 },
+    faceMeshPath: {
+      type: 'string',
+      default: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4/',
+    },
   },
 
   init: function () {
@@ -44,6 +48,7 @@ AFRAME.registerComponent(AR_COMPONENT_NAME.FACE, {
       shouldFaceUser: this.data.shouldFaceUser,
       _positionSettings: this.data._positionSettings,
       _positionZIndex: this.data._positionZIndex,
+      faceMeshPath: this.data.faceMeshPath,
     });
 
     if (this.data.autoStart)

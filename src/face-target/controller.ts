@@ -57,8 +57,8 @@ class Controller {
     });
   }
 
-  public async setup(input: { height: number; width: number }) {
-    this.faceMeshHelper = new FaceMeshHelper();
+  public async setup(input: { height: number; width: number }, faceMeshPath: string) {
+    this.faceMeshHelper = new FaceMeshHelper(faceMeshPath);
     this.estimator = new Estimator(input);
   }
 
